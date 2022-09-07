@@ -1,0 +1,6 @@
+{
+  "client_id": "keycloak_client_id",
+  "client_secret": "keycloak_client_secret",
+  "username": "login_user_name",
+  "password": "login_user_password"
+}

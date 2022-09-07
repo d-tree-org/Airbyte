@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "id": "http://hl7.org/fhir/json-schema/base64Binary",
+  "$ref": "#/definitions/base64Binary",
+  "definitions" : {
+    "base64Binary": {
+      "type": "string",
+      "description": "A stream of bytes"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "id": "http://hl7.org/fhir/json-schema/url",
+  "$ref": "#/definitions/url",
+  "definitions" : {
+    "url": {
+      "pattern": "^\\S*$",
+      "type": "string",
+      "description": "A URI that is a literal reference"
+    }
+  }
+}

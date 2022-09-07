@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "id": "http://hl7.org/fhir/json-schema/positiveInt",
+  "$ref": "#/definitions/positiveInt",
+  "definitions" : {
+    "positiveInt": {
+      "pattern": "^[1-9][0-9]*$",
+      "type": "number",
+      "description": "An integer with a value that is positive (e.g. \u003e0)"
+    }
+  }
+}
