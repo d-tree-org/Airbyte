@@ -4,11 +4,19 @@ connectionSpecification:
   title: Hapi Fhir Spec
   type: object
   required:
+    - server_url
+    - realm_name
     - client_id
     - client_secret
     - username
     - password
   properties:
+    server_url:
+      type: string
+      description: Url for getting keycloak server
+    realm_name:
+      type: string
+      description: Keycloak realm name
     client_id:
       type: string
       description: Client id
