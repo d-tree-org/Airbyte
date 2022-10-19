@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "entry": {
+      "items": {
+        "properties": {
+          "fullUrl": {
+            "type": "string"
+          },
+          "resource": {
+            "properties": {
+              "authored": {
+                "type": "string"
+              },
+              "contained": {
+                "items": {
+                  "properties": {
+                    "category": {
+                      "items": {
+                        "properties": {
+                          "coding": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string"
+                                },
+                                "system": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "class": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "code": {
+                      "properties": {
+                        "coding": {
+                          "items": {
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "system": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "effectiveDateTime": {
+                      "type": "string"
+                    },
+                    "encounter": {
+                      "properties": {
+                        "reference": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "items": {
+                        "properties": {
+                          "use": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "resourceType": {
+                      "type": "string"
+                    },
+                    "serviceType": {
+                      "properties": {
+                        "coding": {
+                          "items": {
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "system": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "properties": {
+                        "reference": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "valueCodeableConcept": {
+                      "properties": {
+                        "coding": {
+                          "items": {
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "display": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "valueString": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "id": {
+                "type": "string"
+              },
+              "item": {
+                "items": {
+                  "properties": {
+                    "answer": {
+                      "items": {
+                        "properties": {
+                          "valueBoolean": {
+                            "type": "boolean"
+                          },
+                          "valueCoding": {
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "display": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "valueDate": {
+                            "type": "string"
+                          },
+                          "valueInteger": {
+                            "type": "integer"
+                          },
+                          "valueString": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "linkId": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "meta": {
+                "properties": {
+                  "lastUpdated": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "tag": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "display": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "versionId": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "questionnaire": {
+                "type": "string"
+              },
+              "resourceType": {
+                "type": "string"
+              },
+              "subject": {
+                "properties": {
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "search": {
+            "properties": {
+              "mode": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "id": {
+      "type": "string"
+    },
+    "link": {
+      "items": {
+        "properties": {
+          "relation": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "meta": {
+      "properties": {
+        "lastUpdated": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "resourceType": {
+      "type": "string"
+    },
+    "total": {
+      "type": "integer"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
