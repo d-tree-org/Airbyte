@@ -16,6 +16,23 @@
         ]
       },
       "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "hiv_test_tested_positive",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": null,
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
     }
   ]
 }
