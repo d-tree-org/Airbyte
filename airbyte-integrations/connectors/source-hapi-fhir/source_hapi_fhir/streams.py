@@ -87,11 +87,11 @@ class Patient(HapiFhirStream):
         return parameters_for_next_request
 
     def path(
-        self,
-        *,
-        stream_state: Mapping[str, Any] = None,
-        stream_slice: Mapping[str, Any] = None,
-        next_page_token: Mapping[str, Any] = None,
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
     ) -> str:
         if next_page_token is None:
             return "Patient/_search"
@@ -99,10 +99,10 @@ class Patient(HapiFhirStream):
             return ""
 
     def request_params(
-        self,
-        stream_state: Mapping[str, Any],
-        stream_slice: Mapping[str, Any] = None,
-        next_page_token: Mapping[str, Any] = None,
+            self,
+            stream_state: Mapping[str, Any],
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
     ) -> MutableMapping[str, Any]:
         if next_page_token is None:
             return {"organization": "10173"}
@@ -143,3 +143,38 @@ class HivTestTestedPositive(HapiFhirStream):
             return {"questionnaire": "Questionnaire/art-client-identifier-and-hiv-test"}
         else:
             return next_page_token
+
+
+class CurrentOnArtStream(HapiFhirStream):
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        return [response.json()]
+
+    primary_key = None
+
+    def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
+        json_response = response.json()
+        response_link = json_response['link']
+        parameters_for_next_request = {}
+        for i in range(0, len(response_link)):
+            if response_link[i]['relation'] == 'next':
+                url = response_link[i]['url']
+                parsed_url = urlparse(url)
+                parameters_for_next_request = parse_qs(parsed_url.query)
+        return parameters_for_next_request
+
+    def path(self, *, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None,
+             next_page_token: Mapping[str, Any] = None) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            return ""
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        if next_page_token is None:
+            return {"questionnaire": "Questionnaire/art-client-tb-history-and-regimen"}
+        else:
+            return next_page_token
+
