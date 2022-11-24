@@ -76,4 +76,5 @@ class SourceHapiFhir(AbstractSource):
 
         return [PatientIncremental(authenticator=auth),
                 PatientDemographicRegistration(authenticator=auth),
-                HtsIndexUntestedStream(authenticator=auth)]
+                HtsIndexUntestedStream(authenticator=auth),
+                HtsIndexStream(authenticator=auth)]
