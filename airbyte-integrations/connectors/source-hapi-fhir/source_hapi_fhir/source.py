@@ -11,7 +11,7 @@ from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
 from keycloak import KeycloakOpenID
 
-from .streams import Patient, HivTestTestedPositive, CurrentOnArtStream, HtsIndexStream, HtsIndexUntestedStream
+from .streams import Patient, HivTestTestedPositive, CurrentOnArtStream, HtsIndexStream, HtsIndexUntestedStream, PatientIncremental, PatientDemographicRegistration
 
 """
 TODO: Most comments in this class are instructive and should be deleted after the source is implemented.
@@ -68,8 +68,12 @@ class SourceHapiFhir(AbstractSource):
         token = keycloak_openid.token(username=config["username"], password=config["password"])
 
         auth = TokenAuthenticator(token=token["access_token"])  # Oauth2Authenticator is also available if you need oauth support
-        return [Patient(authenticator=auth),
-                HivTestTestedPositive(authenticator=auth),
-                CurrentOnArtStream(authenticator=auth),
-                HtsIndexStream(authenticator=auth),
+        # return [Patient(authenticator=auth),
+        #        HivTestTestedPositive(authenticator=auth),
+        #        CurrentOnArtStream(authenticator=auth),
+        #        HtsIndexStream(authenticator=auth),
+        #        HtsIndexUntestedStream(authenticator=auth)]
+
+        return [PatientIncremental(authenticator=auth),
+                PatientDemographicRegistration(authenticator=auth),
                 HtsIndexUntestedStream(authenticator=auth)]
