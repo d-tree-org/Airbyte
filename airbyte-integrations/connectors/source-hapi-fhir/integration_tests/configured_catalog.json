@@ -9,7 +9,7 @@
           "lastUpdated"
         ],
         "json_schema": {},
-        "name": "hts_index_stream",
+        "name": "hiv_test_tested_positive",
         "namespace": null,
         "source_defined_cursor": true,
         "source_defined_primary_key": null,
