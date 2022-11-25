@@ -68,13 +68,10 @@ class SourceHapiFhir(AbstractSource):
         token = keycloak_openid.token(username=config["username"], password=config["password"])
 
         auth = TokenAuthenticator(token=token["access_token"])  # Oauth2Authenticator is also available if you need oauth support
-        # return [Patient(authenticator=auth),
-        #        HivTestTestedPositive(authenticator=auth),
-        #        CurrentOnArtStream(authenticator=auth),
-        #        HtsIndexStream(authenticator=auth),
-        #        HtsIndexUntestedStream(authenticator=auth)]
 
         return [PatientIncremental(authenticator=auth),
                 PatientDemographicRegistration(authenticator=auth),
                 HtsIndexUntestedStream(authenticator=auth),
-                HtsIndexStream(authenticator=auth)]
+                HtsIndexStream(authenticator=auth),
+                CurrentOnArtStream(authenticator=auth),
+                HivTestTestedPositive(authenticator=auth)]
