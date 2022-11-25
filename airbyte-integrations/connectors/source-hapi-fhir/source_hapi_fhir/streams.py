@@ -84,7 +84,6 @@ class IncrementalHapiFhirStream(HapiFhirStream, ABC):
     This is the implementation of the incremental stream to read data from the source incrementally
     """
     state_checkpoint_interval = 50
-    time_zone_at_fhir = 'UTC'
 
     @property
     def cursor_field(self) -> str:
@@ -106,7 +105,6 @@ class IncrementalHapiFhirStream(HapiFhirStream, ABC):
             last_updated_str = latest_record_metadata.get(self.cursor_field)
             date_format = "%Y-%m-%dT%H:%M:%S.%f%z"
             last_updated_timestamp = datetime.datetime.strptime(last_updated_str, date_format).timestamp()
-            self.time_zone_at_fhir = 'Africa/D'
         return {self.cursor_field: max(last_updated_timestamp, current_stream_state.get(self.cursor_field, 0))}
 
 
@@ -170,10 +168,16 @@ class HivTestTestedPositive(HapiFhirStream):
             return params
 
 
-class CurrentOnArtStream(HapiFhirStream):
+class CurrentOnArtStream(IncrementalHapiFhirStream, ABC):
 
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        return [response.json()]
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield questionnaire_response
+        else:
+            pass
 
     primary_key = None
 
@@ -187,10 +191,22 @@ class CurrentOnArtStream(HapiFhirStream):
     def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
     ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
         if next_page_token is None:
-            return {"questionnaire": "Questionnaire/art-client-tb-history-and-regimen"}
+            questionnaire_params = {"questionnaire": "Questionnaire/art-client-tb-history-and-regimen"}
+            params.update(questionnaire_params)
+            return params
         else:
-            return next_page_token
+            params.update(next_page_token)
+            return params
 
 
 class HtsIndexStream(IncrementalHapiFhirStream, ABC):
