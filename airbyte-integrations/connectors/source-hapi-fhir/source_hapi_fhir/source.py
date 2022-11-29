@@ -19,7 +19,9 @@ from .streams import (
     HtsIndexUntestedStream,
     PatientIncremental,
     PatientDemographicRegistration,
-    PatientFinishVisit
+    PatientFinishVisit,
+    ExposedInfantHivTestAndResults,
+    ExposedInfantMilestoneHivTest
 )
 
 """
@@ -84,4 +86,6 @@ class SourceHapiFhir(AbstractSource):
                 HtsIndexStream(authenticator=auth),
                 CurrentOnArtStream(authenticator=auth),
                 HivTestTestedPositive(authenticator=auth),
-                PatientFinishVisit(authenticator=auth)]
+                PatientFinishVisit(authenticator=auth),
+                ExposedInfantHivTestAndResults(authenticator=auth),
+                ExposedInfantMilestoneHivTest(authenticator=auth)]
