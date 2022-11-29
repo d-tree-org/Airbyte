@@ -9,7 +9,7 @@
           "lastUpdated"
         ],
         "json_schema": {},
-        "name": "hiv_test_tested_positive",
+        "name": "patient_finish_visit",
         "namespace": null,
         "source_defined_cursor": true,
         "source_defined_primary_key": null,

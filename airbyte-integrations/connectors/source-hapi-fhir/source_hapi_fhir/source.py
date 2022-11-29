@@ -11,7 +11,16 @@ from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
 from keycloak import KeycloakOpenID
 
-from .streams import Patient, HivTestTestedPositive, CurrentOnArtStream, HtsIndexStream, HtsIndexUntestedStream, PatientIncremental, PatientDemographicRegistration
+from .streams import (
+    Patient,
+    HivTestTestedPositive,
+    CurrentOnArtStream,
+    HtsIndexStream,
+    HtsIndexUntestedStream,
+    PatientIncremental,
+    PatientDemographicRegistration,
+    PatientFinishVisit
+)
 
 """
 TODO: Most comments in this class are instructive and should be deleted after the source is implemented.
@@ -74,4 +83,5 @@ class SourceHapiFhir(AbstractSource):
                 HtsIndexUntestedStream(authenticator=auth),
                 HtsIndexStream(authenticator=auth),
                 CurrentOnArtStream(authenticator=auth),
-                HivTestTestedPositive(authenticator=auth)]
+                HivTestTestedPositive(authenticator=auth),
+                PatientFinishVisit(authenticator=auth)]
