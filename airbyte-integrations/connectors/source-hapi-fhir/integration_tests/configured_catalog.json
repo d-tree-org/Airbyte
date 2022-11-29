@@ -9,7 +9,7 @@
           "lastUpdated"
         ],
         "json_schema": {},
-        "name": "exposed_infant_hiv_test_and_results",
+        "name": "exposed_infant_milestone_hiv_test",
         "namespace": null,
         "source_defined_cursor": true,
         "source_defined_primary_key": null,
