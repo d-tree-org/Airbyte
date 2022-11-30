@@ -9,7 +9,7 @@
           "lastUpdated"
         ],
         "json_schema": {},
-        "name": "art_client_vitals_male_fifteen_years_plus",
+        "name": "art_client_vitals_female_fifteen_years_plus",
         "namespace": null,
         "source_defined_cursor": true,
         "source_defined_primary_key": null,
