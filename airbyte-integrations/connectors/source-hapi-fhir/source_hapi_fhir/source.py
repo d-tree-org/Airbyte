@@ -21,7 +21,12 @@ from .streams import (
     PatientDemographicRegistration,
     PatientFinishVisit,
     ExposedInfantHivTestAndResults,
-    ExposedInfantMilestoneHivTest
+    ExposedInfantMilestoneHivTest,
+    PatientVitalsFemaleZeroSixMonths,
+    PatientVitalsSixMonthsFifteenYears,
+    ArtClientVitalsMaleFifteenYearsPlus,
+    ArtClientVitalsFemaleFifteenYearsPlus,
+    PatientVitalsMaleZeroSixMonths
 )
 
 """
@@ -88,4 +93,10 @@ class SourceHapiFhir(AbstractSource):
                 HivTestTestedPositive(authenticator=auth),
                 PatientFinishVisit(authenticator=auth),
                 ExposedInfantHivTestAndResults(authenticator=auth),
-                ExposedInfantMilestoneHivTest(authenticator=auth)]
+                ExposedInfantMilestoneHivTest(authenticator=auth),
+                PatientVitalsFemaleZeroSixMonths(authenticator=auth),
+                PatientVitalsSixMonthsFifteenYears(authenticator=auth),
+                ArtClientVitalsMaleFifteenYearsPlus(authenticator=auth),
+                ArtClientVitalsFemaleFifteenYearsPlus(authenticator=auth),
+                PatientVitalsMaleZeroSixMonths(authenticator=auth)]
+
