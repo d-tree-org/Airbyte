@@ -9,7 +9,7 @@
           "lastUpdated"
         ],
         "json_schema": {},
-        "name": "exposed_infant_clinical_registration",
+        "name": "art_client_clinical_registration",
         "namespace": null,
         "source_defined_cursor": true,
         "source_defined_primary_key": null,
