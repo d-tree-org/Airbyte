@@ -12,6 +12,106 @@
         "contained": {
           "items": {
             "properties": {
+              "activity": {
+                "items": {
+                  "properties": {
+                    "detail": {
+                      "properties": {
+                        "code": {
+                          "properties": {
+                            "coding": {
+                              "items": {
+                                "properties": {
+                                  "code": {
+                                    "type": "string"
+                                  },
+                                  "display": {
+                                    "type": "string"
+                                  },
+                                  "system": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "text": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "performer": {
+                          "items": {
+                            "properties": {
+                              "display": {
+                                "type": "string"
+                              },
+                              "reference": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "scheduledPeriod": {
+                          "properties": {
+                            "end": {
+                              "type": "string"
+                            },
+                            "start": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "outcomeReference": {
+                      "items": {
+                        "properties": {
+                          "display": {
+                            "type": "string"
+                          },
+                          "reference": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "author": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "authoredOn": {
+                "type": "string"
+              },
               "category": {
                 "items": {
                   "properties": {
@@ -64,6 +164,12 @@
                 },
                 "type": "object"
               },
+              "created": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
               "effectiveDateTime": {
                 "type": "string"
               },
@@ -75,8 +181,102 @@
                 },
                 "type": "object"
               },
+              "executionPeriod": {
+                "properties": {
+                  "end": {
+                    "type": "string"
+                  },
+                  "start": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "for": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "generalPractitioner": {
+                "items": {
+                  "properties": {
+                    "reference": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
               "id": {
                 "type": "string"
+              },
+              "identifier": {
+                "items": {
+                  "properties": {
+                    "use": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "intent": {
+                "type": "string"
+              },
+              "lastModified": {
+                "type": "string"
+              },
+              "managingOrganization": {
+                "properties": {
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "meta": {
+                "properties": {
+                  "tag": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "display": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "owner": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
               },
               "participant": {
                 "items": {
@@ -93,6 +293,53 @@
                   "type": "object"
                 },
                 "type": "array"
+              },
+              "period": {
+                "properties": {
+                  "end": {
+                    "type": "string"
+                  },
+                  "start": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "priority": {
+                "type": "string"
+              },
+              "reasonReference": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "replaces": {
+                "items": {
+                  "properties": {
+                    "reference": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "requester": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
               },
               "resourceType": {
                 "type": "string"
@@ -121,11 +368,17 @@
               },
               "subject": {
                 "properties": {
+                  "display": {
+                    "type": "string"
+                  },
                   "reference": {
                     "type": "string"
                   }
                 },
                 "type": "object"
+              },
+              "title": {
+                "type": "string"
               },
               "valueBoolean": {
                 "type": "boolean"
@@ -152,22 +405,11 @@
                 },
                 "type": "object"
               },
-              "valueQuantity": {
-                "properties": {
-                  "code": {
-                    "type": "string"
-                  },
-                  "system": {
-                    "type": "string"
-                  },
-                  "unit": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "number"
-                  }
-                },
-                "type": "object"
+              "valueInteger": {
+                "type": "integer"
+              },
+              "valueString": {
+                "type": "string"
               }
             },
             "type": "object"
@@ -193,12 +435,15 @@
                         },
                         "display": {
                           "type": "string"
-                        },
-                        "system": {
-                          "type": "string"
                         }
                       },
                       "type": "object"
+                    },
+                    "valueDate": {
+                      "type": "string"
+                    },
+                    "valueInteger": {
+                      "type": "integer"
                     },
                     "valueString": {
                       "type": "string"
@@ -224,12 +469,12 @@
                               },
                               "display": {
                                 "type": "string"
-                              },
-                              "system": {
-                                "type": "string"
                               }
                             },
                             "type": "object"
+                          },
+                          "valueDate": {
+                            "type": "string"
                           },
                           "valueString": {
                             "type": "string"
@@ -247,9 +492,6 @@
                               "properties": {
                                 "valueBoolean": {
                                   "type": "boolean"
-                                },
-                                "valueDecimal": {
-                                  "type": "number"
                                 }
                               },
                               "type": "object"

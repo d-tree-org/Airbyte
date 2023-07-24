@@ -11,7 +11,28 @@ from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
 from keycloak import KeycloakOpenID
 
-from .streams import Patient, HivTestTestedPositive, CurrentOnArtStream
+from .streams import (
+    Patient,
+    HivTestTestedPositive,
+    CurrentOnArtStream,
+    HtsIndexStream,
+    HtsIndexUntestedStream,
+    PatientIncremental,
+    PatientDemographicRegistration,
+    PatientFinishVisit,
+    ExposedInfantHivTestAndResults,
+    ExposedInfantMilestoneHivTest,
+    PatientVitalsFemaleZeroSixMonths,
+    PatientVitalsSixMonthsFifteenYears,
+    ArtClientVitalsMaleFifteenYearsPlus,
+    ArtClientVitalsFemaleFifteenYearsPlus,
+    PatientVitalsMaleZeroSixMonths,
+    ArtClientViralLoadCollection,
+    ExposedInfantClinicalRegistration,
+    ArtClientClinicalRegistration,
+    PatientScreening,
+    CompletedCarePlans
+)
 
 """
 TODO: Most comments in this class are instructive and should be deleted after the source is implemented.
@@ -68,4 +89,23 @@ class SourceHapiFhir(AbstractSource):
         token = keycloak_openid.token(username=config["username"], password=config["password"])
 
         auth = TokenAuthenticator(token=token["access_token"])  # Oauth2Authenticator is also available if you need oauth support
-        return [Patient(authenticator=auth), HivTestTestedPositive(authenticator=auth), CurrentOnArtStream(authenticator=auth)]
+
+        return [PatientIncremental(authenticator=auth),
+                PatientDemographicRegistration(authenticator=auth),
+                HtsIndexUntestedStream(authenticator=auth),
+                HtsIndexStream(authenticator=auth),
+                CurrentOnArtStream(authenticator=auth),
+                HivTestTestedPositive(authenticator=auth),
+                PatientFinishVisit(authenticator=auth),
+                ExposedInfantHivTestAndResults(authenticator=auth),
+                ExposedInfantMilestoneHivTest(authenticator=auth),
+                PatientVitalsFemaleZeroSixMonths(authenticator=auth),
+                PatientVitalsSixMonthsFifteenYears(authenticator=auth),
+                ArtClientVitalsMaleFifteenYearsPlus(authenticator=auth),
+                ArtClientVitalsFemaleFifteenYearsPlus(authenticator=auth),
+                PatientVitalsMaleZeroSixMonths(authenticator=auth),
+                ArtClientViralLoadCollection(authenticator=auth),
+                ExposedInfantClinicalRegistration(authenticator=auth),
+                ArtClientClinicalRegistration(authenticator=auth),
+                PatientScreening(authenticator=auth),
+                CompletedCarePlans(authenticator=auth)]

@@ -45,7 +45,7 @@
                 },
                 "type": "object"
               },
-              "code": {
+              "clinicalStatus": {
                 "properties": {
                   "coding": {
                     "items": {
@@ -60,6 +60,31 @@
                       "type": "object"
                     },
                     "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "code": {
+                "properties": {
+                  "coding": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "display": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "text": {
+                    "type": "string"
                   }
                 },
                 "type": "object"
@@ -93,6 +118,9 @@
                   "type": "object"
                 },
                 "type": "array"
+              },
+              "recordedDate": {
+                "type": "string"
               },
               "resourceType": {
                 "type": "string"
@@ -140,6 +168,9 @@
                         },
                         "display": {
                           "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
                         }
                       },
                       "type": "object"
@@ -151,6 +182,9 @@
                   }
                 },
                 "type": "object"
+              },
+              "valueInteger": {
+                "type": "integer"
               },
               "valueQuantity": {
                 "properties": {
@@ -168,6 +202,25 @@
                   }
                 },
                 "type": "object"
+              },
+              "verificationStatus": {
+                "properties": {
+                  "coding": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
               }
             },
             "type": "object"
@@ -180,34 +233,6 @@
         "item": {
           "items": {
             "properties": {
-              "answer": {
-                "items": {
-                  "properties": {
-                    "valueBoolean": {
-                      "type": "boolean"
-                    },
-                    "valueCoding": {
-                      "properties": {
-                        "code": {
-                          "type": "string"
-                        },
-                        "display": {
-                          "type": "string"
-                        },
-                        "system": {
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "valueString": {
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                },
-                "type": "array"
-              },
               "item": {
                 "items": {
                   "properties": {
@@ -231,6 +256,12 @@
                             },
                             "type": "object"
                           },
+                          "valueDecimal": {
+                            "type": "number"
+                          },
+                          "valueInteger": {
+                            "type": "integer"
+                          },
                           "valueString": {
                             "type": "string"
                           }
@@ -248,8 +279,64 @@
                                 "valueBoolean": {
                                   "type": "boolean"
                                 },
+                                "valueDate": {
+                                  "type": "string"
+                                },
                                 "valueDecimal": {
                                   "type": "number"
+                                },
+                                "valueInteger": {
+                                  "type": "integer"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "item": {
+                            "items": {
+                              "properties": {
+                                "answer": {
+                                  "items": {
+                                    "properties": {
+                                      "valueBoolean": {
+                                        "type": "boolean"
+                                      },
+                                      "valueInteger": {
+                                        "type": "integer"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "item": {
+                                  "items": {
+                                    "properties": {
+                                      "answer": {
+                                        "items": {
+                                          "properties": {
+                                            "valueInteger": {
+                                              "type": "integer"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
+                                        "type": "array"
+                                      },
+                                      "linkId": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "linkId": {
+                                  "type": "string"
+                                },
+                                "text": {
+                                  "type": "string"
                                 }
                               },
                               "type": "object"

@@ -12,6 +12,100 @@
         "contained": {
           "items": {
             "properties": {
+              "activity": {
+                "items": {
+                  "properties": {
+                    "detail": {
+                      "properties": {
+                        "code": {
+                          "properties": {
+                            "coding": {
+                              "items": {
+                                "properties": {
+                                  "code": {
+                                    "type": "string"
+                                  },
+                                  "system": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "performer": {
+                          "items": {
+                            "properties": {
+                              "display": {
+                                "type": "string"
+                              },
+                              "reference": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "scheduledPeriod": {
+                          "properties": {
+                            "end": {
+                              "type": "string"
+                            },
+                            "start": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "outcomeReference": {
+                      "items": {
+                        "properties": {
+                          "display": {
+                            "type": "string"
+                          },
+                          "reference": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "author": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "authoredOn": {
+                "type": "string"
+              },
               "category": {
                 "items": {
                   "properties": {
@@ -64,6 +158,12 @@
                 },
                 "type": "object"
               },
+              "created": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
               "effectiveDateTime": {
                 "type": "string"
               },
@@ -75,8 +175,77 @@
                 },
                 "type": "object"
               },
+              "executionPeriod": {
+                "properties": {
+                  "end": {
+                    "type": "string"
+                  },
+                  "start": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "for": {
+                "properties": {
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
               "id": {
                 "type": "string"
+              },
+              "identifier": {
+                "items": {
+                  "properties": {
+                    "use": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "intent": {
+                "type": "string"
+              },
+              "lastModified": {
+                "type": "string"
+              },
+              "meta": {
+                "properties": {
+                  "tag": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "owner": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
               },
               "participant": {
                 "items": {
@@ -93,6 +262,42 @@
                   "type": "object"
                 },
                 "type": "array"
+              },
+              "period": {
+                "properties": {
+                  "end": {
+                    "type": "string"
+                  },
+                  "start": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "priority": {
+                "type": "string"
+              },
+              "reasonReference": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "requester": {
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
               },
               "resourceType": {
                 "type": "string"
@@ -127,47 +332,14 @@
                 },
                 "type": "object"
               },
+              "title": {
+                "type": "string"
+              },
               "valueBoolean": {
                 "type": "boolean"
               },
-              "valueCodeableConcept": {
-                "properties": {
-                  "coding": {
-                    "items": {
-                      "properties": {
-                        "code": {
-                          "type": "string"
-                        },
-                        "display": {
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "type": "array"
-                  },
-                  "text": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
-              },
-              "valueQuantity": {
-                "properties": {
-                  "code": {
-                    "type": "string"
-                  },
-                  "system": {
-                    "type": "string"
-                  },
-                  "unit": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "number"
-                  }
-                },
-                "type": "object"
+              "valueString": {
+                "type": "string"
               }
             },
             "type": "object"
@@ -200,6 +372,9 @@
                       },
                       "type": "object"
                     },
+                    "valueDate": {
+                      "type": "string"
+                    },
                     "valueString": {
                       "type": "string"
                     }
@@ -214,9 +389,6 @@
                     "answer": {
                       "items": {
                         "properties": {
-                          "valueBoolean": {
-                            "type": "boolean"
-                          },
                           "valueCoding": {
                             "properties": {
                               "code": {
@@ -230,37 +402,6 @@
                               }
                             },
                             "type": "object"
-                          },
-                          "valueString": {
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
-                      },
-                      "type": "array"
-                    },
-                    "item": {
-                      "items": {
-                        "properties": {
-                          "answer": {
-                            "items": {
-                              "properties": {
-                                "valueBoolean": {
-                                  "type": "boolean"
-                                },
-                                "valueDecimal": {
-                                  "type": "number"
-                                }
-                              },
-                              "type": "object"
-                            },
-                            "type": "array"
-                          },
-                          "linkId": {
-                            "type": "string"
-                          },
-                          "text": {
-                            "type": "string"
                           }
                         },
                         "type": "object"

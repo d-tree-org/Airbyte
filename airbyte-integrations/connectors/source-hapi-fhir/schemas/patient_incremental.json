@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "entry": {
+      "items": {
+        "properties": {
+          "fullUrl": {
+            "type": "string"
+          },
+          "resource": {
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "address": {
+                "items": {
+                  "properties": {
+                    "city": {
+                      "type": "string"
+                    },
+                    "country": {
+                      "type": "string"
+                    },
+                    "district": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "use": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "birthDate": {
+                "type": "string"
+              },
+              "gender": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "identifier": {
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "meta": {
+                "properties": {
+                  "lastUpdated": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "tag": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "display": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "versionId": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "name": {
+                "items": {
+                  "properties": {
+                    "family": {
+                      "type": "string"
+                    },
+                    "given": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "use": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "resourceType": {
+                "type": "string"
+              },
+              "telecom": {
+                "items": {
+                  "properties": {
+                    "system": {
+                      "type": "string"
+                    },
+                    "use": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "text": {
+                "properties": {
+                  "div": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "search": {
+            "properties": {
+              "mode": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "id": {
+      "type": "string"
+    },
+    "link": {
+      "items": {
+        "properties": {
+          "relation": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "meta": {
+      "properties": {
+        "lastUpdated": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "resourceType": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

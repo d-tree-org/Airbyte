@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "fullUrl": {
+      "type": "string"
+    },
+    "resource": {
+      "properties": {
+        "authored": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "item": {
+          "items": {
+            "properties": {
+              "answer": {
+                "items": {
+                  "properties": {
+                    "valueCoding": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "display": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "linkId": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "properties": {
+            "lastUpdated": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "tag": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "system": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "versionId": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "questionnaire": {
+          "type": "string"
+        },
+        "resourceType": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "search": {
+      "properties": {
+        "mode": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "type": "object"
+}
