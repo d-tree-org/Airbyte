@@ -14,8 +14,8 @@ class HapiFhirStream(HttpStream, ABC):
     TODO remove this comment
 
     This class represents a stream output by the connector.
-    This is an abstract base class meant to contain all the common functionality at the API level e.g: the API base URL, pagination strategy,
-    parsing responses etc..
+    This is an abstract base class meant to contain all the common functionality at the API level e.g: the API base URL,
+    pagination strategy, parsing responses etc..
 
     Each stream should extend this class (or another abstract subclass of it) to specify behavior unique to that stream.
 
@@ -40,16 +40,17 @@ class HapiFhirStream(HttpStream, ABC):
     def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
         """
 
-        This method should return a Mapping (e.g: dict) containing whatever information required to make paginated requests. This dict is passed
-        to most other methods in this class to help you form headers, request bodies, query params, etc..
+        This method should return a Mapping (e.g: dict) containing whatever information required to make paginated requests. This dict is
+        passed to most other methods in this class to help you form headers, request bodies, query params, etc..
 
-        For example, if the API accepts a 'page' parameter to determine which page of the result to return, and a response from the API contains a
-        'page' number, then this method should probably return a dict {'page': response.json()['page'] + 1} to increment the page count by 1.
+        For example, if the API accepts a 'page' parameter to determine which page of the result to return, and a response from the API
+        contains a 'page' number, then this method should probably return a dict {'page': response.json()['page'] + 1} to increment the
+        page count by 1.
         The request_params method should then read the input next_page_token and set the 'page' param to next_page_token['page'].
 
         :param response: the most recent response from the API
-        :return If there is another page in the result, a mapping (e.g: dict) containing information needed to query the next page in the response.
-                If there are no more pages in the result, return None.
+        :return If there is another page in the result, a mapping (e.g: dict) containing information needed to query the next page in the
+        response. If there are no more pages in the result, return None.
         """
 
         json_response = response.json()
@@ -96,8 +97,9 @@ class IncrementalHapiFhirStream(HapiFhirStream, ABC):
 
     def get_updated_state(self, current_stream_state: MutableMapping[str, Any], latest_record: Mapping[str, Any]) -> Mapping[str, Any]:
         """
-        Override to determine the latest state after reading the latest record. This typically compared the cursor_field from the latest record and
-        the current state and picks the 'most' recent cursor. This is how a stream's state is determined. Required for incremental.
+        Override to determine the latest state after reading the latest record. This typically compared the cursor_field from the latest
+        record and the current state and picks the 'most' recent cursor. This is how a stream's state is determined. Required for
+        incremental.
         """
         last_updated_timestamp = 0
         if 'resource' in latest_record:
@@ -742,6 +744,53 @@ class PatientScreening(QuestionnaireResponseStream, ABC):
             params.update(last_updated_date_params)
         if next_page_token is None:
             questionnaire_param = {"questionnaire": "Questionnaire/patient-screening", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+
+class CarePlansStream(IncrementalHapiFhirStream, ABC):
+
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "CarePlan/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield questionnaire_response
+        else:
+            pass
+
+class CompletedCarePlans(CarePlansStream, ABC):
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"status": "completed", "_count": "100"}
             params.update(questionnaire_param)
             return params
         else:

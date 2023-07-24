@@ -28,7 +28,10 @@ from .streams import (
     ArtClientVitalsFemaleFifteenYearsPlus,
     PatientVitalsMaleZeroSixMonths,
     ArtClientViralLoadCollection,
-    ExposedInfantClinicalRegistration
+    ExposedInfantClinicalRegistration,
+    ArtClientClinicalRegistration,
+    PatientScreening,
+    CompletedCarePlans
 )
 
 """
@@ -102,4 +105,7 @@ class SourceHapiFhir(AbstractSource):
                 ArtClientVitalsFemaleFifteenYearsPlus(authenticator=auth),
                 PatientVitalsMaleZeroSixMonths(authenticator=auth),
                 ArtClientViralLoadCollection(authenticator=auth),
-                ExposedInfantClinicalRegistration(authenticator=auth)]
+                ExposedInfantClinicalRegistration(authenticator=auth),
+                ArtClientClinicalRegistration(authenticator=auth),
+                PatientScreening(authenticator=auth),
+                CompletedCarePlans(authenticator=auth)]
