@@ -35,7 +35,7 @@ class HapiFhirStream(HttpStream, ABC):
 
     See the reference docs for the full list of configurable options.
     """
-    url_base = "https://fhir-dev.d-tree.org/fhir/"
+    url_base = "https://fhir-mwcore-staging.d-tree.org/fhir/"
 
     def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
         """
@@ -792,6 +792,53 @@ class CompletedCarePlans(CarePlansStream, ABC):
         if next_page_token is None:
             questionnaire_param = {"status": "completed", "_count": "100"}
             params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+
+class LocationStream(IncrementalHapiFhirStream, ABC):
+
+        def path(
+                self,
+                *,
+                stream_state: Mapping[str, Any] = None,
+                stream_slice: Mapping[str, Any] = None,
+                next_page_token: Mapping[str, Any] = None,
+        ) -> str:
+            if next_page_token is None:
+                return "Location/_search"
+            else:
+                ""
+
+        def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+            response_json = response.json()
+
+            if 'entry' in response_json:
+                for location in response_json['entry']:
+                    yield location
+            else:
+                pass
+
+class Locations(LocationStream, ABC):
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            location_param = {"status": "active", "_count": "100"}
+            params.update(location_param)
             return params
         else:
             params.update(next_page_token)
