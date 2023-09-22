@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "fullUrl": {
+      "type": "string"
+    },
+    "resource": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "identifier": {
+          "items": {
+            "properties": {
+              "use": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "properties": {
+            "lastUpdated": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "versionId": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        },
+        "partOf": {
+          "properties": {
+            "display": {
+              "type": "string"
+            },
+            "reference": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "physicalType": {
+          "properties": {
+            "coding": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "system": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "resourceType": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "search": {
+      "properties": {
+        "mode": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "type": "object"
+}
