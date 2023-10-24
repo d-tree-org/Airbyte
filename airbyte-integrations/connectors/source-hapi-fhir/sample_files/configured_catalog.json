@@ -435,6 +435,28 @@
         ]
       },
       "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": [
+        "lastUpdated"
+      ],
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "lastUpdated"
+        ],
+        "json_schema": {},
+        "name": "all_care_plans",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": null,
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
     }
   ]
 }
