@@ -41,7 +41,7 @@ class HapiFhirStream(HttpStream, ABC):
         """
 
         This method should return a Mapping (e.g: dict) containing whatever information required to make paginated requests. This dict is
-        passed to most other methods in this class to help you form headers, request bodies, query params, etc..
+        passed to most other methods in this class to help you form headers, request bodies, query params, etc.
 
         For example, if the API accepts a 'page' parameter to determine which page of the result to return, and a response from the API
         contains a 'page' number, then this method should probably return a dict {'page': response.json()['page'] + 1} to increment the
@@ -839,6 +839,30 @@ class Locations(LocationStream, ABC):
         if next_page_token is None:
             location_param = {"status": "active", "_count": "100"}
             params.update(location_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+
+class AllCarePlans(CarePlansStream, ABC):
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"_count": "100"}
+            params.update(questionnaire_param)
             return params
         else:
             params.update(next_page_token)

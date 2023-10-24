@@ -32,7 +32,8 @@ from .streams import (
     ArtClientClinicalRegistration,
     PatientScreening,
     CompletedCarePlans,
-    Locations
+    Locations,
+    AllCarePlans
 )
 
 """
@@ -107,4 +108,5 @@ class SourceHapiFhir(AbstractSource):
                 ArtClientClinicalRegistration(authenticator=auth),
                 PatientScreening(authenticator=auth),
                 CompletedCarePlans(authenticator=auth),
-                Locations(authenticator=auth)]
+                Locations(authenticator=auth),
+                AllCarePlans(authenticator=auth)]
