@@ -49,6 +49,7 @@ connectionSpecification:
     password:
       type: string
       description: user password
+      airbyte_secret: true
       title: Password
       order: 7
   groups:
