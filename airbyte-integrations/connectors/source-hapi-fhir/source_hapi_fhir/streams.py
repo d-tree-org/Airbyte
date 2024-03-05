@@ -11,7 +11,6 @@ from airbyte_cdk.sources.streams.http.http import HttpStream
 # Basic full refresh stream
 class HapiFhirStream(HttpStream, ABC):
     """
-    TODO remove this comment
 
     This class represents a stream output by the connector.
     This is an abstract base class meant to contain all the common functionality at the API level e.g: the API base URL,
@@ -21,21 +20,23 @@ class HapiFhirStream(HttpStream, ABC):
 
     Typically for REST APIs each stream corresponds to a resource in the API. For example if the API
     contains the endpoints
-        - GET v1/customers
-        - GET v1/employees
+        - GET fhir/Patient
+        - GET fhir/QuestionnaireResponse/hiv-index-testing
 
     then you should have three classes:
     `class HapiFhirStream(HttpStream, ABC)` which is the current class
-    `class Customers(HapiFhirStream)` contains behavior to pull data for customers using v1/customers
-    `class Employees(HapiFhirStream)` contains behavior to pull data for employees using v1/employees
-
-    If some streams implement incremental sync, it is typical to create another class
-    `class IncrementalHapiFhirStream((HapiFhirStream), ABC)` then have concrete stream implementations extend it. An example
-    is provided below.
-
-    See the reference docs for the full list of configurable options.
+    `class Patient(HapiFhirStream)` contains behavior to pull data for patients using fhir/Patient
+    `class HivIndexTesting(HapiFhirStream)` contains behavior to pull data for hiv index testing
+     questionnaire responses using fhir/QuestionnaireResponse/hiv-index-testing
     """
-    url_base = "https://fhir-mwcore-staging.d-tree.org/fhir/"
+
+    def __init__(self, url: str, **kwargs):
+        super(HapiFhirStream, self).__init__(**kwargs)
+        self._url = url
+
+    @property
+    def url_base(self) -> str:
+        return self._url
 
     def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
         """
@@ -196,7 +197,7 @@ class HivTestTestedPositive(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -237,7 +238,7 @@ class CurrentOnArtStream(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -283,7 +284,7 @@ class HtsIndexStream(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -328,7 +329,7 @@ class HtsIndexUntestedStream(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -375,14 +376,14 @@ class PatientIncremental(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
             params.update(last_updated_date_params)
         if next_page_token is None:
-            organization_count_params = {"organization": "10173", "_count": "100"}
-            params.update(organization_count_params)
+            active_patient_count_params = {"active": "true", "_count": "100"}
+            params.update(active_patient_count_params)
             return params
         else:
             params.update(next_page_token)
@@ -412,7 +413,7 @@ class PatientDemographicRegistration(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -458,7 +459,7 @@ class PatientFinishVisit(IncrementalHapiFhirStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -491,7 +492,7 @@ class ExposedInfantHivTestAndResults(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -515,7 +516,7 @@ class ExposedInfantMilestoneHivTest(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -539,7 +540,7 @@ class PatientVitalsFemaleZeroSixMonths(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -563,7 +564,7 @@ class PatientVitalsSixMonthsFifteenYears(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -587,7 +588,7 @@ class ArtClientVitalsMaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -602,7 +603,6 @@ class ArtClientVitalsMaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
 
 
 class ArtClientVitalsFemaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -612,7 +612,7 @@ class ArtClientVitalsFemaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -627,7 +627,6 @@ class ArtClientVitalsFemaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
 
 
 class PatientVitalsMaleZeroSixMonths(QuestionnaireResponseStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -637,7 +636,7 @@ class PatientVitalsMaleZeroSixMonths(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -652,7 +651,6 @@ class PatientVitalsMaleZeroSixMonths(QuestionnaireResponseStream, ABC):
 
 
 class ArtClientViralLoadCollection(QuestionnaireResponseStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -662,7 +660,7 @@ class ArtClientViralLoadCollection(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -677,7 +675,6 @@ class ArtClientViralLoadCollection(QuestionnaireResponseStream, ABC):
 
 
 class ExposedInfantClinicalRegistration(QuestionnaireResponseStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -687,7 +684,7 @@ class ExposedInfantClinicalRegistration(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -702,7 +699,6 @@ class ExposedInfantClinicalRegistration(QuestionnaireResponseStream, ABC):
 
 
 class ArtClientClinicalRegistration(QuestionnaireResponseStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -712,7 +708,7 @@ class ArtClientClinicalRegistration(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -727,7 +723,6 @@ class ArtClientClinicalRegistration(QuestionnaireResponseStream, ABC):
 
 
 class PatientScreening(QuestionnaireResponseStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -737,7 +732,7 @@ class PatientScreening(QuestionnaireResponseStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -749,6 +744,7 @@ class PatientScreening(QuestionnaireResponseStream, ABC):
         else:
             params.update(next_page_token)
             return params
+
 
 class CarePlansStream(IncrementalHapiFhirStream, ABC):
 
@@ -773,8 +769,8 @@ class CarePlansStream(IncrementalHapiFhirStream, ABC):
         else:
             pass
 
-class CompletedCarePlans(CarePlansStream, ABC):
 
+class CompletedCarePlans(CarePlansStream, ABC):
     primary_key = None
 
     def request_params(
@@ -784,7 +780,7 @@ class CompletedCarePlans(CarePlansStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -797,31 +793,32 @@ class CompletedCarePlans(CarePlansStream, ABC):
             params.update(next_page_token)
             return params
 
+
 class LocationStream(IncrementalHapiFhirStream, ABC):
 
-        def path(
-                self,
-                *,
-                stream_state: Mapping[str, Any] = None,
-                stream_slice: Mapping[str, Any] = None,
-                next_page_token: Mapping[str, Any] = None,
-        ) -> str:
-            if next_page_token is None:
-                return "Location/_search"
-            else:
-                ""
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "Location/_search"
+        else:
+            ""
 
-        def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-            response_json = response.json()
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
 
-            if 'entry' in response_json:
-                for location in response_json['entry']:
-                    yield location
-            else:
-                pass
+        if 'entry' in response_json:
+            for location in response_json['entry']:
+                yield location
+        else:
+            pass
+
 
 class Locations(LocationStream, ABC):
-
     primary_key = None
 
     def request_params(
@@ -831,7 +828,7 @@ class Locations(LocationStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)
@@ -844,8 +841,8 @@ class Locations(LocationStream, ABC):
             params.update(next_page_token)
             return params
 
-class AllCarePlans(CarePlansStream, ABC):
 
+class AllCarePlans(CarePlansStream, ABC):
     primary_key = None
 
     def request_params(
@@ -855,7 +852,7 @@ class AllCarePlans(CarePlansStream, ABC):
         if stream_state:
             last_updated_timestamp = stream_state.get(self.cursor_field)
             # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Dar_es_Salaam"))
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
             last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
             last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
             print("#################################" + last_updated_date)

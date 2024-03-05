@@ -4,28 +4,53 @@ connectionSpecification:
   title: Hapi Fhir Spec
   type: object
   required:
-    - server_url
+    - oauth_server_url
+    - hapi_server_url
     - realm_name
     - client_id
     - client_secret
     - username
     - password
   properties:
-    server_url:
+    oauth_server_url:
       type: string
       description: Url for getting keycloak server
+      order: 2
+      title: Keycloak Server Url
+      group: auth
+    hapi_server_url:
+      type: string
+      description: Url for hapi fhir server
+      title: HAPI FHIR Server Url
+      order: 1
+      group: auth
     realm_name:
       type: string
       description: Keycloak realm name
+      title: Keycloak Realm Name
+      order : 3
+      group: auth
     client_id:
       type: string
       description: Client id
+      title: Keycloak Client ID
+      order: 4
+      group: auth
     client_secret:
       type: string
       description: Client secret for oauth
+      title: Keycloak  Client Secret
+      order: 5
     username:
       type: string
       description: Login username
+      title: Username
+      order: 6
     password:
       type: string
       description: user password
+      title: Password
+      order: 7
+  groups:
+    - id: auth
+      title: Authentication
