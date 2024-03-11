@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "fullUrl": {
+      "type": "string"
+    },
+    "resource": {
+      "properties": {
+        "authoredOn": {
+          "type": "string"
+        },
+        "code": {
+          "properties": {
+            "coding": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "system": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "executionPeriod": {
+          "properties": {
+            "end": {
+              "type": "string"
+            },
+            "start": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "for": {
+          "properties": {
+            "display": {
+              "type": "string"
+            },
+            "reference": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identifier": {
+          "items": {
+            "properties": {
+              "use": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "intent": {
+          "type": "string"
+        },
+        "lastModified": {
+          "type": "string"
+        },
+        "meta": {
+          "properties": {
+            "lastUpdated": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "tag": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "system": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "versionId": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "owner": {
+          "properties": {
+            "display": {
+              "type": "string"
+            },
+            "reference": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "priority": {
+          "type": "string"
+        },
+        "reasonCode": {
+          "properties": {
+            "coding": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "system": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "reasonReference": {
+          "properties": {
+            "display": {
+              "type": "string"
+            },
+            "reference": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "requester": {
+          "properties": {
+            "display": {
+              "type": "string"
+            },
+            "reference": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "resourceType": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "search": {
+      "properties": {
+        "mode": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "type": "object"
+}
