@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "display", "system"]
+          }
+        }
+      },
+      "required": ["lastUpdated", "source", "tag", "versionId"]
+    },
+    "category": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "coding": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "system": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "system"]
+            }
+          }
+        },
+        "required": ["coding"]
+      }
+    },
+    "code": {
+      "type": "object",
+      "properties": {
+        "coding": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "system"]
+          }
+        }
+      },
+      "required": ["coding"]
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        }
+      },
+      "required": ["reference"]
+    },
+    "encounter": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        }
+      },
+      "required": ["reference"]
+    },
+    "effectiveDateTime": {
+      "type": "string"
+    },
+    "valueCodeableConcept": {
+      "type": "object",
+      "properties": {
+        "coding": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "display"]
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["coding", "text"]
+    }
+  },
+  "required": [
+    "category",
+    "code",
+    "effectiveDateTime",
+    "encounter",
+    "id",
+    "meta",
+    "resourceType",
+    "subject",
+    "valueCodeableConcept"
+  ]
+}
