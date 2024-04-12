@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "display", "system"]
+          }
+        }
+      },
+      "required": ["lastUpdated", "source", "tag", "versionId"]
+    },
+    "type": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        }
+      },
+      "required": ["code", "display", "system"]
+    },
+    "subtype": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "display": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "display", "system"]
+      }
+    },
+    "action": {
+      "type": "string"
+    },
+    "recorded": {
+      "type": "string"
+    },
+    "outcome": {
+      "type": "string"
+    },
+    "agent": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "who": {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string"
+              }
+            },
+            "required": ["reference"]
+          },
+          "requestor": {
+            "type": "boolean"
+          }
+        },
+        "required": ["requestor", "who"]
+      }
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "observer": {
+          "type": "object",
+          "properties": {
+            "reference": {
+              "type": "string"
+            }
+          },
+          "required": ["reference"]
+        }
+      },
+      "required": ["observer"]
+    }
+  },
+  "required": [
+    "action",
+    "agent",
+    "id",
+    "meta",
+    "outcome",
+    "recorded",
+    "resourceType",
+    "source",
+    "subtype",
+    "type"
+  ]
+}

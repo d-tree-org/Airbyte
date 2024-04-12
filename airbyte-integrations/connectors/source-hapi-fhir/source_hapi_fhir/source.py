@@ -35,7 +35,8 @@ from .streams import (
     Locations,
     AllCarePlans,
     Tasks,
-    TracingOutcomes
+    TracingOutcomes,
+    AuditEvents
 )
 
 """
@@ -112,7 +113,8 @@ class SourceHapiFhir(AbstractSource):
                           Locations,
                           AllCarePlans,
                           Tasks,
-                          TracingOutcomes
+                          TracingOutcomes,
+                          AuditEvents
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]
