@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "fullUrl": {
+      "type": "string"
+    },
+    "resource": {
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identifier": {
+          "items": {
+            "properties": {
+              "use": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "properties": {
+            "lastUpdated": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "tag": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "display": {
+                    "type": "string"
+                  },
+                  "system": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "versionId": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "name": {
+          "items": {
+            "properties": {
+              "family": {
+                "type": "string"
+              },
+              "given": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "use": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "resourceType": {
+          "type": "string"
+        },
+        "telecom": {
+          "items": {
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "search": {
+      "properties": {
+        "mode": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "type": "object"
+}
