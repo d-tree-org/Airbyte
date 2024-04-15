@@ -35,7 +35,8 @@ from .streams import (
     Locations,
     AllCarePlans,
     Tasks,
-    TracingOutcomes,
+    TracingOutcomesConducted,
+    TracingOutcomesUnconducted,                 
     AuditEvents
 )
 
@@ -113,7 +114,8 @@ class SourceHapiFhir(AbstractSource):
                           Locations,
                           AllCarePlans,
                           Tasks,
-                          TracingOutcomes,
+                          TracingOutcomesConducted,
+                          TracingOutcomesUnconducted,
                           AuditEvents
                           ]
 
