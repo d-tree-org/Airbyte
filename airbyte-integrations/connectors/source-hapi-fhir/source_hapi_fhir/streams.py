@@ -912,7 +912,8 @@ class Tasks(TaskStream, ABC):
         else:
             params.update(next_page_token)
             return params
-        
+
+
 class TracingOutcomeStream(IncrementalHapiFhirStream, ABC):
     def path(
             self,
@@ -935,9 +936,11 @@ class TracingOutcomeStream(IncrementalHapiFhirStream, ABC):
         else:
             pass
 
+
 class TracingOutcomesConducted(TracingOutcomeStream, ABC):
-     primary_key = None
-     def request_params(
+    primary_key = None
+
+    def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
     ) -> MutableMapping[str, Any]:
         params = {}
@@ -956,10 +959,12 @@ class TracingOutcomesConducted(TracingOutcomeStream, ABC):
         else:
             params.update(next_page_token)
             return params
-        
+
+
 class TracingOutcomesUnconducted(TracingOutcomeStream, ABC):
-     primary_key = None
-     def request_params(
+    primary_key = None
+
+    def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
     ) -> MutableMapping[str, Any]:
         params = {}
@@ -978,6 +983,7 @@ class TracingOutcomesUnconducted(TracingOutcomeStream, ABC):
         else:
             params.update(next_page_token)
             return params
+
 
 class AuditEventStream(IncrementalHapiFhirStream, ABC):
     def path(
@@ -1001,9 +1007,11 @@ class AuditEventStream(IncrementalHapiFhirStream, ABC):
         else:
             pass
 
+
 class AuditEvents(AuditEventStream, ABC):
-     primary_key = None
-     def request_params(
+    primary_key = None
+
+    def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
     ) -> MutableMapping[str, Any]:
         params = {}
@@ -1018,6 +1026,50 @@ class AuditEvents(AuditEventStream, ABC):
         if next_page_token is None:
             audit_event_param = {"_count": "500"}
             params.update(audit_event_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+
+
+class Practitioner(IncrementalHapiFhirStream, ABC):
+    primary_key = None
+
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "Practitioner/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for location in response_json['entry']:
+                yield location
+        else:
+            pass
+
+    def request_params(self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None,
+                       next_page_token: Mapping[str, Any] = None) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            practitioner_param = {"active": "true", "_count": "500"}
+            params.update(practitioner_param)
             return params
         else:
             params.update(next_page_token)
