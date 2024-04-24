@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": ["lastUpdated", "source", "versionId"]
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "use": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": ["use", "value"]
+      }
+    },
+    "status": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "participant": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "coding": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "system": {
+                        "type": "string"
+                      },
+                      "code": {
+                        "type": "string"
+                      },
+                      "display": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["code", "display", "system"]
+                  }
+                }
+              },
+              "required": ["coding"]
+            }
+          },
+          "member": {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": ["display", "reference"]
+          }
+        },
+        "required": ["member"]
+      }
+    },
+    "managingOrganization": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string"
+          },
+          "display": {
+            "type": "string"
+          }
+        },
+        "required": ["display", "reference"]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "identifier",
+    "managingOrganization",
+    "meta",
+    "name",
+    "participant",
+    "resourceType",
+    "status"
+  ]
+}
