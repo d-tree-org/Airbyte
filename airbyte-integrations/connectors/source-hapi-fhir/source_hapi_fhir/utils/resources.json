@@ -1,0 +1,26 @@
+{
+    "questionnaireResponse": {
+        "finish-visit": {
+            "no-page": [
+                "date-visited",
+                "date-of-next-appointment",
+                "patient-id",
+                "patient-gender",
+                "patient-category",
+                "care-plan-id"
+            ]
+        }
+    },
+    "patientResource": [
+        "name",
+        "address",
+        "display",
+        "text",
+        "telecom",
+        "generalPractitioner"
+    ],
+    "otherResource": [
+        "contained",
+        "display"
+    ]
+}

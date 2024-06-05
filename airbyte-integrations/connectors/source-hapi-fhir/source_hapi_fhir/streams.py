@@ -1,12 +1,14 @@
 import datetime
+import json
 from zoneinfo import ZoneInfo
 from abc import ABC
-from typing import Any, Iterable, Mapping, MutableMapping, Optional
+from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional
 from urllib.parse import urlparse, parse_qs
 
 import requests
 from airbyte_cdk.sources.streams.http.http import HttpStream
-
+from .utils.functions import process_data
+from .utils.resources_configs import resources_config
 
 # Basic full refresh stream
 class HapiFhirStream(HttpStream, ABC):
@@ -79,13 +81,13 @@ class HapiFhirStream(HttpStream, ABC):
         :return an iterable containing each record in the response
         """
         yield {}
-
-
 class IncrementalHapiFhirStream(HapiFhirStream, ABC):
     """
     This is the implementation of the incremental stream to read data from the source incrementally
     """
     state_checkpoint_interval = 50
+
+
 
     @property
     def cursor_field(self) -> str:
@@ -112,7 +114,12 @@ class IncrementalHapiFhirStream(HapiFhirStream, ABC):
 
 
 class QuestionnaireResponseStream(IncrementalHapiFhirStream, ABC):
-
+    def __init__(self, url: str, **kwargs):
+        super(QuestionnaireResponseStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('finish-visit',{})
+        
     def path(
             self,
             *,
@@ -130,17 +137,22 @@ class QuestionnaireResponseStream(IncrementalHapiFhirStream, ABC):
 
         if 'entry' in response_json:
             for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
         else:
             pass
 
 
 class Patient(HapiFhirStream):
+    def __init__(self, url: str, **kwargs):
+        super(Patient, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('patientResource', [])
+
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_json = response.json()
 
         for patient_resource in response_json['entry']:
-            yield patient_resource
+            yield process_data(patient_resource, self.tags_to_remove)
 
     primary_key = None
 
@@ -170,25 +182,10 @@ class Patient(HapiFhirStream):
             return params
 
 
-class HivTestTestedPositive(IncrementalHapiFhirStream, ABC):
-
-    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        response_json = response.json()
-
-        if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
-        else:
-            pass
+class HivTestTestedPositive(QuestionnaireResponseStream, ABC):
 
     primary_key = None
 
-    def path(self, *, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None,
-             next_page_token: Mapping[str, Any] = None) -> str:
-        if next_page_token is None:
-            return "QuestionnaireResponse/_search"
-        else:
-            return ""
 
     def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
@@ -211,25 +208,8 @@ class HivTestTestedPositive(IncrementalHapiFhirStream, ABC):
             return params
 
 
-class CurrentOnArtStream(IncrementalHapiFhirStream, ABC):
-
-    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        response_json = response.json()
-
-        if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
-        else:
-            pass
-
+class CurrentOnArtStream(QuestionnaireResponseStream, ABC):
     primary_key = None
-
-    def path(self, *, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None,
-             next_page_token: Mapping[str, Any] = None) -> str:
-        if next_page_token is None:
-            return "QuestionnaireResponse/_search"
-        else:
-            return ""
 
     def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
@@ -252,30 +232,9 @@ class CurrentOnArtStream(IncrementalHapiFhirStream, ABC):
             return params
 
 
-class HtsIndexStream(IncrementalHapiFhirStream, ABC):
-
-    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        response_json = response.json()
-
-        if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
-        else:
-            pass
+class HtsIndexStream(QuestionnaireResponseStream, ABC):
 
     primary_key = None
-
-    def path(
-            self,
-            *,
-            stream_state: Mapping[str, Any] = None,
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
-    ) -> str:
-        if next_page_token is None:
-            return "QuestionnaireResponse/_search"
-        else:
-            return ""
 
     def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
@@ -298,29 +257,8 @@ class HtsIndexStream(IncrementalHapiFhirStream, ABC):
             return params
 
 
-class HtsIndexUntestedStream(IncrementalHapiFhirStream, ABC):
-
-    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        response_json = response.json()
-        if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
-        else:
-            pass
-
+class HtsIndexUntestedStream(QuestionnaireResponseStream, ABC):
     primary_key = None
-
-    def path(
-            self,
-            *,
-            stream_state: Mapping[str, Any] = None,
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
-    ) -> str:
-        if next_page_token is None:
-            return "QuestionnaireResponse/_search"
-        else:
-            return ""
 
     def request_params(
             self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
@@ -344,6 +282,11 @@ class HtsIndexUntestedStream(IncrementalHapiFhirStream, ABC):
 
 
 class PatientIncremental(IncrementalHapiFhirStream, ABC):
+    
+    def __init__(self, url: str, **kwargs):
+        super(PatientIncremental, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('patientResource', [])
 
     def path(
             self,
@@ -365,7 +308,7 @@ class PatientIncremental(IncrementalHapiFhirStream, ABC):
         # Check if the response has any entry
         if 'entry' in response_json:
             for patient_resource in response_json['entry']:
-                yield patient_resource
+                yield process_data(patient_resource, self.tags_to_remove)
         else:
             pass
 
@@ -388,68 +331,7 @@ class PatientIncremental(IncrementalHapiFhirStream, ABC):
         else:
             params.update(next_page_token)
             return params
-
-
-class PatientDemographicRegistration(IncrementalHapiFhirStream, ABC):
-
-    def path(
-            self,
-            *,
-            stream_state: Mapping[str, Any] = None,
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
-    ) -> str:
-        if next_page_token is None:
-            return "QuestionnaireResponse/_search"
-        else:
-            ""
-
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/patient-demographic-registration", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        response_json = response.json()
-
-        if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
-        else:
-            pass
-
-
-class PatientFinishVisit(IncrementalHapiFhirStream, ABC):
-
-    def path(
-            self,
-            *,
-            stream_state: Mapping[str, Any] = None,
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
-    ) -> str:
-        if next_page_token is None:
-            return "QuestionnaireResponse/_search"
-        else:
-            ""
-
+class PatientFinishVisit(QuestionnaireResponseStream, ABC):
     primary_key = None
 
     def request_params(
@@ -471,15 +353,6 @@ class PatientFinishVisit(IncrementalHapiFhirStream, ABC):
         else:
             params.update(next_page_token)
             return params
-
-    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
-        response_json = response.json()
-
-        if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
-        else:
-            pass
 
 
 class ExposedInfantHivTestAndResults(QuestionnaireResponseStream, ABC):
@@ -747,6 +620,10 @@ class PatientScreening(QuestionnaireResponseStream, ABC):
 
 
 class CarePlansStream(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
 
     def path(
             self,
@@ -764,8 +641,8 @@ class CarePlansStream(IncrementalHapiFhirStream, ABC):
         response_json = response.json()
 
         if 'entry' in response_json:
-            for questionnaire_response in response_json['entry']:
-                yield questionnaire_response
+            for resource in response_json['entry']:
+                yield process_data(resource, self.tags_to_remove)
         else:
             pass
 
@@ -868,6 +745,11 @@ class AllCarePlans(CarePlansStream, ABC):
 
 class TaskStream(IncrementalHapiFhirStream, ABC):
 
+    def __init__(self, url: str, **kwargs):
+        super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+    
     def path(
             self,
             *,
@@ -884,8 +766,8 @@ class TaskStream(IncrementalHapiFhirStream, ABC):
         response_json = response.json()
 
         if 'entry' in response_json:
-            for location in response_json['entry']:
-                yield location
+            for resource in response_json['entry']:
+                yield process_data(resource, self.tags_to_remove)
         else:
             pass
 
@@ -915,6 +797,12 @@ class Tasks(TaskStream, ABC):
 
 
 class TracingOutcomeStream(IncrementalHapiFhirStream, ABC):
+
+    def __init__(self, url: str, **kwargs):
+        super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+
     def path(
             self,
             *,
@@ -931,8 +819,8 @@ class TracingOutcomeStream(IncrementalHapiFhirStream, ABC):
         response_json = response.json()
 
         if 'entry' in response_json:
-            for location in response_json['entry']:
-                yield location
+            for resource in response_json['entry']:
+                yield process_data(resource, self.tags_to_remove)
         else:
             pass
 
@@ -1119,6 +1007,10 @@ class CareTeam(IncrementalHapiFhirStream, ABC):
             return params
 
 class Encounter(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
     primary_key = None
 
     def path(
@@ -1137,8 +1029,8 @@ class Encounter(IncrementalHapiFhirStream, ABC):
         response_json = response.json()
 
         if 'entry' in response_json:
-            for location in response_json['entry']:
-                yield location
+            for resource in response_json['entry']:
+                yield process_data(resource, self.tags_to_remove)
         else:
             pass
 
@@ -1180,8 +1072,8 @@ class OrganizationAffiliation(IncrementalHapiFhirStream, ABC):
         response_json = response.json()
 
         if 'entry' in response_json:
-            for location in response_json['entry']:
-                yield location
+            for resource in response_json['entry']:
+                yield resource
         else:
             pass
 
@@ -1203,4 +1095,3 @@ class OrganizationAffiliation(IncrementalHapiFhirStream, ABC):
         else:
             params.update(next_page_token)
             return params
-

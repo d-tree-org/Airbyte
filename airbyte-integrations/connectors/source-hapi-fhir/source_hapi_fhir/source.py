@@ -18,7 +18,6 @@ from .streams import (
     HtsIndexStream,
     HtsIndexUntestedStream,
     PatientIncremental,
-    PatientDemographicRegistration,
     PatientFinishVisit,
     ExposedInfantHivTestAndResults,
     ExposedInfantMilestoneHivTest,
@@ -97,7 +96,6 @@ class SourceHapiFhir(AbstractSource):
         auth = TokenAuthenticator(token=token["access_token"])  # Oauth2Authenticator is also available if you need oauth support
 
         stream_classes = [PatientIncremental,
-                          PatientDemographicRegistration,
                           HtsIndexUntestedStream,
                           HtsIndexStream,
                           CurrentOnArtStream,
