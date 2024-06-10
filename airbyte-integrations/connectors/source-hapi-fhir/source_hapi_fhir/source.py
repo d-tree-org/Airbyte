@@ -40,7 +40,8 @@ from .streams import (
     Practitioner,
     CareTeam,
     Encounter, 
-    OrganizationAffiliation
+    OrganizationAffiliation,
+    Conditions
 )
 
 """
@@ -122,7 +123,8 @@ class SourceHapiFhir(AbstractSource):
                           Practitioner,
                           CareTeam,
                           Encounter,
-                          OrganizationAffiliation
+                          OrganizationAffiliation,
+                          Conditions
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]

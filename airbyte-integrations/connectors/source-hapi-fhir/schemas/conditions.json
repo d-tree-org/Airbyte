@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "display", "system"]
+          }
+        }
+      },
+      "required": ["lastUpdated", "source", "tag", "versionId"]
+    },
+    "clinicalStatus": {
+      "type": "object",
+      "properties": {
+        "coding": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "system"]
+          }
+        }
+      },
+      "required": ["coding"]
+    },
+    "verificationStatus": {
+      "type": "object",
+      "properties": {
+        "coding": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "system"]
+          }
+        }
+      },
+      "required": ["coding"]
+    },
+    "code": {
+      "type": "object",
+      "properties": {
+        "coding": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              }
+            },
+            "required": ["code", "display", "system"]
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["coding", "text"]
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        }
+      },
+      "required": ["reference"]
+    },
+    "recordedDate": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "clinicalStatus",
+    "code",
+    "id",
+    "meta",
+    "recordedDate",
+    "resourceType",
+    "subject",
+    "verificationStatus"
+  ]
+}

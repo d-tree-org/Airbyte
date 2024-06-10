@@ -1095,3 +1095,51 @@ class OrganizationAffiliation(IncrementalHapiFhirStream, ABC):
         else:
             params.update(next_page_token)
             return params
+        
+class Conditions(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+
+    primary_key = None
+
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "Condition/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for resource in response_json['entry']:
+                yield process_data(resource, self.tags_to_remove)
+        else:
+            pass
+
+    def request_params(self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None,
+                       next_page_token: Mapping[str, Any] = None) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            query_param = {"clinical-status": "active", "_count": "500"}
+            params.update(query_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
