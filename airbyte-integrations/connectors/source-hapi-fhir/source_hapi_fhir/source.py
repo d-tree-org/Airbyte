@@ -13,27 +13,11 @@ from keycloak import KeycloakOpenID
 
 from .streams import (
     Patient,
-    HivTestTestedPositive,
-    CurrentOnArtStream,
-    HtsIndexStream,
-    HtsIndexUntestedStream,
     PatientIncremental,
     PatientFinishVisit,
-    ExposedInfantHivTestAndResults,
-    ExposedInfantMilestoneHivTest,
-    PatientVitalsFemaleZeroSixMonths,
-    PatientVitalsSixMonthsFifteenYears,
-    ArtClientVitalsMaleFifteenYearsPlus,
-    ArtClientVitalsFemaleFifteenYearsPlus,
-    PatientVitalsMaleZeroSixMonths,
-    ArtClientViralLoadCollection,
-    ExposedInfantClinicalRegistration,
-    ArtClientClinicalRegistration,
-    PatientScreening,
     CompletedCarePlans,
     Locations,
     AllCarePlans,
-    Tasks,
     TracingOutcomesConducted,
     TracingOutcomesUnconducted,                 
     AuditEvents,
@@ -41,7 +25,8 @@ from .streams import (
     CareTeam,
     Encounter, 
     OrganizationAffiliation,
-    Conditions
+    Conditions,
+    VitalsDisclosed
 )
 
 """
@@ -97,26 +82,10 @@ class SourceHapiFhir(AbstractSource):
         auth = TokenAuthenticator(token=token["access_token"])  # Oauth2Authenticator is also available if you need oauth support
 
         stream_classes = [PatientIncremental,
-                          HtsIndexUntestedStream,
-                          HtsIndexStream,
-                          CurrentOnArtStream,
-                          HivTestTestedPositive,
                           PatientFinishVisit,
-                          ExposedInfantHivTestAndResults,
-                          ExposedInfantMilestoneHivTest,
-                          PatientVitalsFemaleZeroSixMonths,
-                          PatientVitalsSixMonthsFifteenYears,
-                          ArtClientVitalsMaleFifteenYearsPlus,
-                          ArtClientVitalsFemaleFifteenYearsPlus,
-                          PatientVitalsMaleZeroSixMonths,
-                          ArtClientViralLoadCollection,
-                          ExposedInfantClinicalRegistration,
-                          ArtClientClinicalRegistration,
-                          PatientScreening,
                           CompletedCarePlans,
                           Locations,
                           AllCarePlans,
-                          Tasks,
                           TracingOutcomesConducted,
                           TracingOutcomesUnconducted,
                           AuditEvents,
@@ -124,7 +93,8 @@ class SourceHapiFhir(AbstractSource):
                           CareTeam,
                           Encounter,
                           OrganizationAffiliation,
-                          Conditions
+                          Conditions,
+                          VitalsDisclosed  
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]
