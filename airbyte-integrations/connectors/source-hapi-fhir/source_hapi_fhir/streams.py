@@ -182,105 +182,6 @@ class Patient(HapiFhirStream):
             return params
 
 
-class HivTestTestedPositive(QuestionnaireResponseStream, ABC):
-
-    primary_key = None
-
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_params = {"questionnaire": "Questionnaire/art-client-identifier-and-hiv-test"}
-            params.update(questionnaire_params)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class CurrentOnArtStream(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_params = {"questionnaire": "Questionnaire/art-client-tb-history-and-regimen"}
-            params.update(questionnaire_params)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class HtsIndexStream(QuestionnaireResponseStream, ABC):
-
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_params = {"questionnaire": "Questionnaire/contact-and-community-positive-hiv-test-and-next-appointment"}
-            params.update(questionnaire_params)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class HtsIndexUntestedStream(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_request_param = {"questionnaire": "Questionnaire/art-client-index-case-testing"}
-            params.update(questionnaire_request_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
 class PatientIncremental(IncrementalHapiFhirStream, ABC):
     
     def __init__(self, url: str, **kwargs):
@@ -348,270 +249,6 @@ class PatientFinishVisit(QuestionnaireResponseStream, ABC):
             params.update(last_updated_date_params)
         if next_page_token is None:
             questionnaire_param = {"questionnaire": "Questionnaire/patient-finish-visit", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ExposedInfantHivTestAndResults(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/exposed-infant-hiv-test-and-results", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ExposedInfantMilestoneHivTest(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/exposed-infant-milestone-hiv-test", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class PatientVitalsFemaleZeroSixMonths(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/patient-vitals-female-0-to-6-months", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class PatientVitalsSixMonthsFifteenYears(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/patient-vitals-6-months-to-15-years", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ArtClientVitalsMaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/art-client-vitals-male-15-years-plus", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ArtClientVitalsFemaleFifteenYearsPlus(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/art-client-vitals-female-15-years-plus", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class PatientVitalsMaleZeroSixMonths(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/patient-vitals-male-0-to-6-months", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ArtClientViralLoadCollection(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/art-client-viral-load-collection", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ExposedInfantClinicalRegistration(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/exposed-infant-clinical-registration", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class ArtClientClinicalRegistration(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/art-client-clinical-registration", "_count": "100"}
-            params.update(questionnaire_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
-
-class PatientScreening(QuestionnaireResponseStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            questionnaire_param = {"questionnaire": "Questionnaire/patient-screening", "_count": "100"}
             params.update(questionnaire_param)
             return params
         else:
@@ -825,7 +462,7 @@ class TracingOutcomeStream(IncrementalHapiFhirStream, ABC):
             pass
 
 
-class TracingOutcomesConducted(TracingOutcomeStream, ABC):
+class TracingOutcomes(TracingOutcomeStream, ABC):
     primary_key = None
 
     def request_params(
@@ -841,37 +478,12 @@ class TracingOutcomesConducted(TracingOutcomeStream, ABC):
             print("#################################" + last_updated_date)
             params.update(last_updated_date_params)
         if next_page_token is None:
-            obs_param = {"code": "https://d-tree.org|tracing-outcome-conducted", "_count": "500"}
+            obs_param = {"code": "https://d-tree.org/fhir/observation-codes|tracing-outcome", "_count": "500"}
             params.update(obs_param)
             return params
         else:
             params.update(next_page_token)
             return params
-
-
-class TracingOutcomesUnconducted(TracingOutcomeStream, ABC):
-    primary_key = None
-
-    def request_params(
-            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
-    ) -> MutableMapping[str, Any]:
-        params = {}
-        if stream_state:
-            last_updated_timestamp = stream_state.get(self.cursor_field)
-            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
-            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
-            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
-            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
-            print("#################################" + last_updated_date)
-            params.update(last_updated_date_params)
-        if next_page_token is None:
-            obs_param = {"code": "https://d-tree.org|tracing-outcome-unconducted", "_count": "500"}
-            params.update(obs_param)
-            return params
-        else:
-            params.update(next_page_token)
-            return params
-
 
 class AuditEventStream(IncrementalHapiFhirStream, ABC):
     def path(
@@ -1138,6 +750,54 @@ class Conditions(IncrementalHapiFhirStream, ABC):
             params.update(last_updated_date_params)
         if next_page_token is None:
             query_param = {"clinical-status": "active", "_count": "500"}
+            params.update(query_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+        
+class VitalsDisclosed(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+
+    primary_key = None
+
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "Observation/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for resource in response_json['entry']:
+                yield process_data(resource, self.tags_to_remove)
+        else:
+            pass
+
+    def request_params(self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None,
+                       next_page_token: Mapping[str, Any] = None) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            query_param = {"code": "vitals-disclose", "_count": "500"}
             params.update(query_param)
             return params
         else:
