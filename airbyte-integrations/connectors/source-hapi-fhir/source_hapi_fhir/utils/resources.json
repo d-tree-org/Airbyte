@@ -9,6 +9,12 @@
         "patient-category",
         "care-plan-id"
       ]
+    },
+    "viral-load-collection": {
+      "no-page": ["viral-load-collection-confirmation"]
+    },
+    "milestone-hiv-test": {
+      "page-1": ["able-to-conduct-test"]
     }
   },
   "patientResource": [
