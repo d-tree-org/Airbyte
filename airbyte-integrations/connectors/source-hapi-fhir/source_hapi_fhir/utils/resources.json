@@ -15,6 +15,13 @@
     },
     "milestone-hiv-test": {
       "page-1": ["able-to-conduct-test"]
+    },
+    "counselling": {
+      "page-1": [
+        "is-mother-alive",
+        "is-mother-alive-no",
+        "how-mother-died"
+      ]
     }
   },
   "patientResource": [
