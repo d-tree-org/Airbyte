@@ -22,6 +22,11 @@
         "is-mother-alive-no",
         "how-mother-died"
       ]
+    }, 
+    "ahd-evaluation": {
+      "no-page": [
+        "adh-evalution-confirmation"
+      ]
     }
   },
   "patientResource": [
