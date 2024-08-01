@@ -27,6 +27,31 @@
       "no-page": [
         "adh-evalution-confirmation"
       ]
+    },
+    "children-present":{
+      "no-page":[
+        "group-child-one",
+        "did-the-client-come-with-this-one-child",
+        "group-child-two",
+        "did-the-client-come-with-this-second-child",
+        "group-child-three",
+        "did-the-client-come-with-this-third-child",
+        "group-child-four",
+        "did-the-client-come-with-this-fourth-child",
+        "group-child-five",
+        "did-the-client-come-with-this-fifth-child",
+        "group-child-six",
+        "did-the-client-come-with-this-sixth-child",
+        "group-child-seven",
+        "did-the-client-come-with-this-seventh-child",
+        "group-child-eight",
+        "did-the-client-come-with-this-eighth-child",
+        "group-child-nine",
+        "did-the-client-come-with-this-ninth-child",
+        "group-child-ten",
+        "did-the-client-come-with-this-tenth-child"
+
+      ]
     }
   },
   "patientResource": [
