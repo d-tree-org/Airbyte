@@ -1,0 +1,118 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "resourceType": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "meta": {
+        "type": "object",
+        "properties": {
+          "versionId": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "system": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "display": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "display", "system"]
+            }
+          }
+        },
+        "required": ["lastUpdated", "source", "tag", "versionId"]
+      },
+      "status": {
+        "type": "string"
+      },
+      "class": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "system"]
+      },
+      "serviceType": {
+        "type": "object",
+        "properties": {
+          "coding": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "system": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "system"]
+            }
+          }
+        },
+        "required": ["coding"]
+      },
+      "subject": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string"
+          }
+        },
+        "required": ["reference"]
+      },
+      "participant": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "individual": {
+              "type": "object",
+              "properties": {
+                "reference": {
+                  "type": "string"
+                }
+              },
+              "required": ["reference"]
+            }
+          },
+          "required": ["individual"]
+        }
+      }
+    },
+    "required": [
+      "class",
+      "id",
+      "meta",
+      "participant",
+      "resourceType",
+      "serviceType",
+      "status",
+      "subject"
+    ]
+  }
