@@ -28,7 +28,11 @@ from .streams import (
     Tasks,
     ArtClientViralLoadCollection,
     ExposedInfantMilestoneHivTest,
-    TracingList
+    TracingList,
+    ExposedInfantCounselling,
+    Encounter,
+    AHDEvaluation,
+    ChildrenPresent
 )
 
 """
@@ -99,6 +103,10 @@ class SourceHapiFhir(AbstractSource):
                           ArtClientViralLoadCollection,
                           ExposedInfantMilestoneHivTest,
                           TracingList  
+                          ExposedInfantCounselling, 
+                          Encounter, 
+                          AHDEvaluation,
+                          ChildrenPresent 
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]
