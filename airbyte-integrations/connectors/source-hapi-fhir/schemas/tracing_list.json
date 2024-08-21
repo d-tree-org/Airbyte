@@ -1,0 +1,225 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "resourceType": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "meta": {
+            "type": "object",
+            "properties": {
+                "versionId": {
+                    "type": "string"
+                },
+                "lastUpdated": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system": {
+                                "type": "string"
+                            },
+                            "code": {
+                                "type": "string"
+                            },
+                            "display": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "code",
+                            "display",
+                            "system"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "lastUpdated",
+                "source",
+                "tag",
+                "versionId"
+            ]
+        },
+        "status": {
+            "type": "string"
+        },
+        "mode": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "code": {
+            "type": "object",
+            "properties": {
+                "coding": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system": {
+                                "type": "string"
+                            },
+                            "code": {
+                                "type": "string"
+                            },
+                            "display": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "code",
+                            "display",
+                            "system"
+                        ]
+                    }
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "coding",
+                "text"
+            ]
+        },
+        "subject": {
+            "type": "object",
+            "properties": {
+                "reference": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "reference"
+            ]
+        },
+        "date": {
+            "type": "string"
+        },
+        "source": {
+            "type": "object",
+            "properties": {
+                "reference": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "reference"
+            ]
+        },
+        "orderedBy": {
+            "type": "object",
+            "properties": {
+                "coding": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system": {
+                                "type": "string"
+                            },
+                            "code": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "code",
+                            "system"
+                        ]
+                    }
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "coding",
+                "text"
+            ]
+        },
+        "entry": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "flag": {
+                        "type": "object",
+                        "properties": {
+                            "coding": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "system": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "display": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "system"
+                                    ]
+                                }
+                            },
+                            "text": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "coding"
+                        ]
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "item": {
+                        "type": "object",
+                        "properties": {
+                            "reference": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "reference"
+                        ]
+                    }
+                },
+                "required": [
+                    "date",
+                    "flag",
+                    "item"
+                ]
+            }
+        }
+    },
+    "required": [
+        "code",
+        "date",
+        "entry",
+        "id",
+        "meta",
+        "mode",
+        "orderedBy",
+        "resourceType",
+        "source",
+        "status",
+        "subject",
+        "title"
+    ]
+}

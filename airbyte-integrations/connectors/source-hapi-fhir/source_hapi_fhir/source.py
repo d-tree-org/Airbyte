@@ -27,7 +27,8 @@ from .streams import (
     VitalsDisclosed,
     Tasks,
     ArtClientViralLoadCollection,
-    ExposedInfantMilestoneHivTest
+    ExposedInfantMilestoneHivTest,
+    TracingList
 )
 
 """
@@ -96,7 +97,8 @@ class SourceHapiFhir(AbstractSource):
                           VitalsDisclosed,
                           Tasks,
                           ArtClientViralLoadCollection,
-                          ExposedInfantMilestoneHivTest  
+                          ExposedInfantMilestoneHivTest,
+                          TracingList  
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]
