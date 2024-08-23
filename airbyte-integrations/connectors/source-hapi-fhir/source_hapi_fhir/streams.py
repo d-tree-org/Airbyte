@@ -903,13 +903,14 @@ class ExposedInfantMilestoneHivTest(IncrementalHapiFhirStream, ABC):
         else:
             params.update(next_page_token)
             return params
+
         
-class Encounter(IncrementalHapiFhirStream, ABC):
+class TracingList(IncrementalHapiFhirStream, ABC):
+
     def __init__(self, url: str, **kwargs):
         super(IncrementalHapiFhirStream, self).__init__(url, **kwargs)
         self.resources_config = resources_config
         self.tags_to_remove = self.resources_config.get('otherResource', [])
-
 
     primary_key = None
 
@@ -921,7 +922,7 @@ class Encounter(IncrementalHapiFhirStream, ABC):
             next_page_token: Mapping[str, Any] = None,
     ) -> str:
         if next_page_token is None:
-            return "Encounter/_search"
+            return "List/_search"
         else:
             ""
 
@@ -933,7 +934,6 @@ class Encounter(IncrementalHapiFhirStream, ABC):
                 yield process_data(resource, self.tags_to_remove)
         else:
             pass
-
 
     def request_params(self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None,
                        next_page_token: Mapping[str, Any] = None) -> MutableMapping[str, Any]:
@@ -947,8 +947,8 @@ class Encounter(IncrementalHapiFhirStream, ABC):
             print("#################################" + last_updated_date)
             params.update(last_updated_date_params)
         if next_page_token is None:
-            encounter_param = {"status": "finished", "_count": "500"}
-            params.update(encounter_param)
+            query_param = {"code": "225368008", "_count": "500"}
+            params.update(query_param)
             return params
         else:
             params.update(next_page_token)
