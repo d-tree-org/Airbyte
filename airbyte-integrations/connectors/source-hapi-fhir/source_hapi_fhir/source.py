@@ -102,7 +102,7 @@ class SourceHapiFhir(AbstractSource):
                           Tasks,
                           ArtClientViralLoadCollection,
                           ExposedInfantMilestoneHivTest,
-                          TracingList  
+                          TracingList,  
                           ExposedInfantCounselling, 
                           Encounter, 
                           AHDEvaluation,
