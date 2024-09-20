@@ -52,6 +52,14 @@
         "did-the-client-come-with-this-tenth-child"
 
       ]
+    },
+    "vitals-female-plus":{
+      "page-1":[
+        "pregnancy-status",
+        "your-pregnancy-status-at-your-last-visit-was-non-pregnant",
+        "your-pregnancy-status-at-your-last-visit-was-breastfeeding",
+        "your-pregnancy-status-at-your-last-visit-was-pregnant"
+      ]
     }
   },
   "patientResource": [
