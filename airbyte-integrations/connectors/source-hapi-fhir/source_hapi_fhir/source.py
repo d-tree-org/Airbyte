@@ -33,7 +33,13 @@ from .streams import (
     Encounter,
     AHDEvaluation,
     ChildrenPresent,
-    ArtClientVitalsFemaleFifteenYearsPlus
+    ArtClientVitalsFemaleFifteenYearsPlus,
+    ArtClientClinicalRegistration,
+    ArtClientScreening,
+    ArtClientRecordViralLoadResults,
+    ArtClientGiveViralLoadResults,
+    ExposedInfantGiveHivTestResults,
+    ExposedInfantRecordHivTestResults
 )
 
 """
@@ -108,7 +114,13 @@ class SourceHapiFhir(AbstractSource):
                           Encounter, 
                           AHDEvaluation,
                           ChildrenPresent,
-                          ArtClientVitalsFemaleFifteenYearsPlus
+                          ArtClientVitalsFemaleFifteenYearsPlus,
+                          ArtClientScreening,
+                          ArtClientClinicalRegistration,
+                          ArtClientRecordViralLoadResults,
+                          ArtClientGiveViralLoadResults,
+                          ExposedInfantRecordHivTestResults,
+                          ExposedInfantGiveHivTestResults    
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]

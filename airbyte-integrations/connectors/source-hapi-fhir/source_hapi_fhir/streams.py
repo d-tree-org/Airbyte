@@ -1153,3 +1153,304 @@ class ArtClientVitalsFemaleFifteenYearsPlus(IncrementalHapiFhirStream, ABC):
         else:
             params.update(next_page_token)
             return params
+        
+class ArtClientScreening(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(ArtClientScreening, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('patient-screening',{})
+        
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
+        else:
+            pass
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"questionnaire": "Questionnaire/patient-screening", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+        
+class ArtClientClinicalRegistration(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(ArtClientClinicalRegistration, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('clinical-registration',{})
+        
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
+        else:
+            pass
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"questionnaire": "Questionnaire/art-client-clinical-registration", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+        
+class ArtClientRecordViralLoadResults(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(ArtClientRecordViralLoadResults, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('record-vl-results',{})
+        
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
+        else:
+            pass
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"questionnaire": "Questionnaire/art-client-record-viral-load-results", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+        
+
+class ArtClientGiveViralLoadResults(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(ArtClientGiveViralLoadResults, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('give-vl-results',{})
+        
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
+        else:
+            pass
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"questionnaire": "Questionnaire/art-client-give-viral-load-results", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+        
+class ExposedInfantGiveHivTestResults(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(ExposedInfantGiveHivTestResults, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('give-hiv-results',{})
+        
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
+        else:
+            pass
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"questionnaire": "Questionnaire/exposed-infant-give-hiv-test-results", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
+        
+class ExposedInfantRecordHivTestResults(IncrementalHapiFhirStream, ABC):
+    def __init__(self, url: str, **kwargs):
+        super(ExposedInfantRecordHivTestResults, self).__init__(url, **kwargs)
+        self.resources_config = resources_config
+        self.tags_to_remove = self.resources_config.get('otherResource', [])
+        self.link_ids_to_keep = self.resources_config.get('questionnaireResponse',{}).get('record-hiv-results',{})
+        
+    def path(
+            self,
+            *,
+            stream_state: Mapping[str, Any] = None,
+            stream_slice: Mapping[str, Any] = None,
+            next_page_token: Mapping[str, Any] = None,
+    ) -> str:
+        if next_page_token is None:
+            return "QuestionnaireResponse/_search"
+        else:
+            ""
+
+    def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
+        response_json = response.json()
+
+        if 'entry' in response_json:
+            for questionnaire_response in response_json['entry']:
+                yield process_data(questionnaire_response, self.tags_to_remove, self.link_ids_to_keep)
+        else:
+            pass
+
+    primary_key = None
+
+    def request_params(
+            self, stream_state: Mapping[str, Any], stream_slice: Mapping[str, any] = None, next_page_token: Mapping[str, Any] = None
+    ) -> MutableMapping[str, Any]:
+        params = {}
+        if stream_state:
+            last_updated_timestamp = stream_state.get(self.cursor_field)
+            # Hardcoded ZoneInfo, the FHIR server ZoneInfo to make sure that you have the real time for lastUpdated params
+            last_updated = datetime.datetime.fromtimestamp(last_updated_timestamp, ZoneInfo("Africa/Blantyre"))
+            last_updated_date = last_updated.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            last_updated_date_params = {"_lastUpdated": "gt" + last_updated_date}
+            print("#################################" + last_updated_date)
+            params.update(last_updated_date_params)
+        if next_page_token is None:
+            questionnaire_param = {"questionnaire": "Questionnaire/exposed-infant-record-hiv-test-results", "_count": "100"}
+            params.update(questionnaire_param)
+            return params
+        else:
+            params.update(next_page_token)
+            return params
