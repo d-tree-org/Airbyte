@@ -14,7 +14,7 @@
       "no-page": ["viral-load-collection-confirmation"]
     },
     "milestone-hiv-test": {
-      "page-1": ["able-to-conduct-test"]
+      "page-1": ["able-to-conduct-test","test-type","hiv-test-results","hiv-results-positive-info-group","child-and-guardian-available"]
     },
     "counselling": {
       "page-1": [
@@ -59,6 +59,43 @@
         "your-pregnancy-status-at-your-last-visit-was-non-pregnant",
         "your-pregnancy-status-at-your-last-visit-was-breastfeeding",
         "your-pregnancy-status-at-your-last-visit-was-pregnant"
+      ]
+    }, 
+    "patient-screening": {
+      "no-page": [
+        "does-client-need-viral-load-collection"
+      ]
+    },
+    "clinical-registration": {
+      "page-regimen-history-and-viral-load-collection-details":[
+        "does-client-require-viral-load-collection-today"
+      ]
+    },
+    "record-vl-results": {
+      "no-page":[
+        "vl-sample-collection-date",
+        "last-known-vl-results-available",
+        "viral-load-type",
+        "dbs-group",
+        "dbs-client-available-to-receive-vl-result-comfirmation-1",
+        "plasma-group",
+        "plasma-client-available-to-receive-vl-result-comfirmation"
+      ]
+    },
+    "give-vl-results": {
+      "no-page":[
+        "client-present-comfirmation",
+        "able-to-give-results-comfirmation"
+      ]
+    },
+    "give-hiv-results": {
+      "no-page":[]
+    },
+    "record-hiv-results": {
+      "no-page":[
+        "dbs-results",
+        "guardian-available",
+        "child-present"
       ]
     }
   },
