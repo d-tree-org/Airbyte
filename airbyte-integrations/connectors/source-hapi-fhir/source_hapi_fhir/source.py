@@ -39,7 +39,8 @@ from .streams import (
     ArtClientRecordViralLoadResults,
     ArtClientGiveViralLoadResults,
     ExposedInfantGiveHivTestResults,
-    ExposedInfantRecordHivTestResults
+    ExposedInfantRecordHivTestResults,
+    HivTestAndNextAppt
 )
 
 """
@@ -120,7 +121,8 @@ class SourceHapiFhir(AbstractSource):
                           ArtClientRecordViralLoadResults,
                           ArtClientGiveViralLoadResults,
                           ExposedInfantRecordHivTestResults,
-                          ExposedInfantGiveHivTestResults    
+                          ExposedInfantGiveHivTestResults,
+                          HivTestAndNextAppt    
                           ]
 
         return [cls(authenticator=auth, url=config['hapi_server_url']) for cls in stream_classes]
