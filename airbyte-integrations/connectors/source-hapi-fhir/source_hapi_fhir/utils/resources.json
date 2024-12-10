@@ -97,6 +97,13 @@
         "guardian-available",
         "child-present"
       ]
+    },
+    "hiv-test-next-appt":{
+      "no-page":[
+        "community-hiv-test-results",
+        "facility-hiv-test-results"
+
+      ]
     }
   },
   "patientResource": [
